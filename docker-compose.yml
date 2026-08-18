@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: decarabian_gateway
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=http://localhost:8000
+    volumes:
+      # Persist the SQLite database so data isn't lost when container restarts
+      - decarabian_db:/var/www/html/database
+      # Optional: Mount your own .env file if you want to override settings
+      # - ./.env:/var/www/html/.env
+
+volumes:
+  decarabian_db:
