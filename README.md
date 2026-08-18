@@ -1,8 +1,8 @@
 <div align="center">
   <img src="public/logo.png" alt="Decarabian Logo" width="120" height="120" />
   <h1>Decarabian</h1>
-  <p><strong>The Ultimate AI Security Gateway & Secret Vault</strong></p>
-  <p>Never give an AI your real API keys.</p>
+  <p><strong>A Transparent Proxy and Secret Vault for AI Agents</strong></p>
+  <p>Instead of giving raw API keys directly to LLMs, Decarabian acts as a middleman that intercepts tool calls, injects real secrets server-side, and logs every action.</p>
 </div>
 
 ---

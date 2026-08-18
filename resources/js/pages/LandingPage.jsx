@@ -65,7 +65,7 @@ export default function LandingPage() {
                     </h1>
                     
                     <p className="text-lg md:text-xl text-slate-400 leading-relaxed mb-10 max-w-2xl mx-auto">
-                        The ultimate AI Security Gateway. Secure your sensitive credentials in an encrypted vault and issue granular, permission-scoped tokens to your autonomous agents.
+                        A transparent proxy layer for AI tools. Store your real API keys in an encrypted vault, issue scoped tokens to your AI, and let Decarabian handle secret injection and execution logging.
                     </p>
                     
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
