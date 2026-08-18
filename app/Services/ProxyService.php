@@ -35,17 +35,26 @@ class ProxyService
 
         $client = $this->injectCredential($client, $credential, $realSecret);
 
-        // Determine how to send the payload based on HTTP method
+        // Inject path variables from parameters into the URL (e.g. {owner}/{repo})
         $method = strtoupper($tool->http_method);
         $url = $tool->target_url;
+        
+        foreach ($parameters as $key => $value) {
+            if (is_scalar($value) && str_contains($url, '{' . $key . '}')) {
+                $url = str_replace('{' . $key . '}', urlencode((string)$value), $url);
+                unset($parameters[$key]); // Remove from body/query since it's in the URL
+            }
+        }
 
+        // GitHub API and most modern APIs prefer JSON bodies, not Form Data
+        // so we switch to asJson() for write operations.
         return match ($method) {
             'GET'    => $client->get($url, $parameters),
-            'POST'   => $client->asForm()->post($url, $parameters),
-            'PUT'    => $client->asForm()->put($url, $parameters),
-            'PATCH'  => $client->asForm()->patch($url, $parameters),
+            'POST'   => $client->asJson()->post($url, $parameters),
+            'PUT'    => $client->asJson()->put($url, $parameters),
+            'PATCH'  => $client->asJson()->patch($url, $parameters),
             'DELETE' => $client->delete($url, $parameters),
-            default  => $client->asForm()->post($url, $parameters),
+            default  => $client->asJson()->post($url, $parameters),
         };
     }
 
