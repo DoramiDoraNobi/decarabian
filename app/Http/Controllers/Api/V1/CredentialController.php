@@ -105,7 +105,13 @@ class CredentialController extends Controller
             'provider'         => 'sometimes|string|max:100',
             'auth_type'        => 'sometimes|in:bearer,header,query',
             'auth_header_name' => 'nullable|string|max:255',
+            'secret'           => 'nullable|string',
         ]);
+
+        if (!empty($validated['secret'])) {
+            $validated['encrypted_secret'] = Crypt::encryptString($validated['secret']);
+            unset($validated['secret']);
+        }
 
         $credential->update($validated);
 
