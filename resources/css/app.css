@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .decarabian-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+      radial-gradient(circle at 50% 18%, rgba(34, 211, 238, 0.16), transparent 34%),
+      linear-gradient(180deg, #111315 0%, #151818 58%, #222318 100%);
+    background-size: 46px 46px, 46px 46px, 100% 100%, 100% 100%;
+    animation: decarabian-grid-shift 20s linear infinite;
+  }
+
+  .decarabian-console {
+    position: relative;
+  }
+
+  .decarabian-console::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.07) 42%, transparent 58%);
+    transform: translateX(-120%);
+    animation: decarabian-glint 7s ease-in-out infinite;
+  }
+
+  .decarabian-reveal {
+    animation: decarabian-reveal 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  .decarabian-row {
+    animation: decarabian-row-in 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  .decarabian-pulse {
+    animation: decarabian-pulse 1.8s ease-in-out infinite;
+  }
+
+  .decarabian-scan {
+    background: linear-gradient(180deg, rgba(34, 211, 238, 0), rgba(34, 211, 238, 0.13), rgba(34, 211, 238, 0));
+    animation: decarabian-scan 4.5s ease-in-out infinite;
+  }
+}
+
+@keyframes decarabian-grid-shift {
+  from {
+    background-position: 0 0, 0 0, center, center;
+  }
+  to {
+    background-position: 46px 46px, 46px 46px, center, center;
+  }
+}
+
+@keyframes decarabian-glint {
+  0%, 52% {
+    transform: translateX(-120%);
+  }
+  72%, 100% {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes decarabian-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes decarabian-row-in {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes decarabian-pulse {
+  0%, 100% {
+    opacity: 0.55;
+    box-shadow: 0 0 0 0 rgba(110, 231, 183, 0);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 0 6px rgba(110, 231, 183, 0.12);
+  }
+}
+
+@keyframes decarabian-scan {
+  0%, 100% {
+    transform: translateY(-72px);
+    opacity: 0;
+  }
+  45%, 55% {
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(230px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .decarabian-grid,
+  .decarabian-console::after,
+  .decarabian-reveal,
+  .decarabian-row,
+  .decarabian-pulse,
+  .decarabian-scan {
+    animation: none;
+  }
+}
