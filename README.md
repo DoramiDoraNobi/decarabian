@@ -68,10 +68,10 @@ print(result)
 
 ### TypeScript / JavaScript SDK
 ```bash
-npm install @decarabian/sdk
+npm install decarabian
 ```
 ```typescript
-import { Decarabian } from '@decarabian/sdk';
+import { Decarabian } from 'decarabian';
 
 const gateway = new Decarabian({ token: 'ag_...' });
 const result = await gateway.execute(

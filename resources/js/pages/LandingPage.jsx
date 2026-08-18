@@ -121,7 +121,7 @@ export default function LandingPage() {
                                 ) : (
                                     <div className="text-slate-300 whitespace-pre">
                                         <span className="text-slate-500">// 1. Initialize Decarabian Gateway</span><br/>
-                                        <span className="text-indigo-400">import</span> &#123; Decarabian &#125; <span className="text-indigo-400">from</span> <span className="text-cyan-300">'@decarabian/sdk'</span>;<br/>
+                                        <span className="text-indigo-400">import</span> &#123; Decarabian &#125; <span className="text-indigo-400">from</span> <span className="text-cyan-300">'decarabian'</span>;<br/>
                                         <br/>
                                         <span className="text-indigo-400">const</span> gateway = <span className="text-indigo-400">new</span> Decarabian(&#123; token: <span className="text-cyan-300">'ag_prod_9XyZ...'</span> &#125;);<br/>
                                         <br/>
