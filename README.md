@@ -7,6 +7,13 @@
 
 ---
 
+## ?? Support the Project
+Decarabian is open-source. If this gateway saves your API keys and your time, consider supporting the creator!
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/doramidoranobi)
+
+---
+
 ## ⚓ What is Decarabian?
 
 Current Autonomous AI Agents (like AutoGPT, custom LLMs, or Antigravity) require raw API keys (e.g., Stripe, AWS, GitHub) to interact with the world. This creates a massive attack vector. If an AI hallucinates or is compromised via Prompt Injection, it could leak your keys, delete your database, or authorize fraudulent refunds.
@@ -82,3 +89,4 @@ console.log(result);
 
 ## 📄 License
 MIT License. Built for the autonomous future.
+
