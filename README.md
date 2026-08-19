@@ -79,10 +79,18 @@ pip install decarabian
 ```python
 from decarabian import Decarabian
 
+# 1. Initialize with your Agent Token
 gateway = Decarabian(token="ag_...")
+
+# 2. Execute a tool. Decarabian will inject the real GitHub PAT securely!
 result = gateway.execute(
-    tool_name="stripe.charge",
-    parameters={"amount": 5000, "currency": "usd"}
+    tool_name="github.issue.create",
+    parameters={
+        "owner": "DoramiDoraNobi",
+        "repo": "Eventora",
+        "title": "Bug in login page",
+        "body": "User reported a 500 error."
+    }
 )
 print(result)
 ```
@@ -95,9 +103,15 @@ npm install decarabian
 import { Decarabian } from 'decarabian';
 
 const gateway = new Decarabian({ token: 'ag_...' });
+
 const result = await gateway.execute(
-    'stripe.charge',
-    { amount: 5000, currency: 'usd' }
+    'github.issue.create',
+    {
+        owner: 'DoramiDoraNobi',
+        repo: 'Eventora',
+        title: 'Bug in login page',
+        body: 'User reported a 500 error.'
+    }
 );
 console.log(result);
 ```
