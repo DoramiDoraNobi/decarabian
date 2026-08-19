@@ -4,6 +4,12 @@ import api from '../lib/axios';
 export default function Credentials() {
     const [credentials, setCredentials] = useState([]);
     const [loading, setLoading] = useState(true);
+    
+    // Modal State
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        name: '', provider: '', secret: '', auth_type: 'bearer', auth_header_name: ''
+    });
 
     const loadCredentials = () => {
         api.get('/credentials')
@@ -14,15 +20,13 @@ export default function Credentials() {
 
     useEffect(() => { loadCredentials(); }, []);
 
-    const createCredential = async () => {
-        const name = prompt("Credential Name (e.g. Stripe API):");
-        const provider = prompt("Provider Name (e.g. stripe):");
-        const secret = prompt("Secret Key:");
-        if (!name || !provider || !secret) return;
-        
+    const handleCreate = async (e) => {
+        e.preventDefault();
         try {
-            await api.post('/credentials', { name, provider, secret, auth_type: 'bearer' });
+            await api.post('/credentials', formData);
             loadCredentials();
+            setIsModalOpen(false);
+            setFormData({ name: '', provider: '', secret: '', auth_type: 'bearer', auth_header_name: '' });
         } catch (err) {
             alert("Failed to create credential");
         }
@@ -52,13 +56,14 @@ export default function Credentials() {
     if (loading) return <div className="text-gray-400">Loading vault...</div>;
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 relative">
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-bold text-white tracking-wide">Credentials Vault</h1>
-                <button onClick={createCredential} className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold shadow hover:bg-indigo-500 transition-colors">
+                <button onClick={() => setIsModalOpen(true)} className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold shadow hover:bg-indigo-500 transition-colors">
                     + SECURE NEW KEY
                 </button>
             </div>
+            
             <div className="bg-[#121214] border border-gray-800 rounded-xl p-6">
                 <p className="text-sm text-gray-500 mb-6 flex items-center">
                     <span className="w-2 h-2 rounded-full bg-indigo-500 mr-2"></span>
@@ -74,7 +79,8 @@ export default function Credentials() {
                                         {cred.provider || 'CUSTOM'}
                                     </span>
                                 </div>
-                                <p className="text-xs font-mono bg-[#121214] border border-gray-800 px-3 py-2 rounded mt-4 text-center text-gray-500 tracking-[0.2em]">
+                                <p className="text-xs text-gray-500 mt-2">Auth: {cred.auth_type.toUpperCase()}</p>
+                                <p className="text-xs font-mono bg-[#121214] border border-gray-800 px-3 py-2 rounded mt-2 text-center text-gray-500 tracking-[0.2em]">
                                     ••••••••••••••••
                                 </p>
                             </div>
@@ -95,6 +101,47 @@ export default function Credentials() {
                     )}
                 </div>
             </div>
+
+            {/* Modal for creating credential */}
+            {isModalOpen && (
+                <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+                    <div className="bg-[#09090b] border border-gray-800 p-6 rounded-xl w-full max-w-md">
+                        <h2 className="text-xl font-bold text-white mb-4">Store Secure Credential</h2>
+                        <form onSubmit={handleCreate} className="space-y-4">
+                            <div>
+                                <label className="block text-xs font-bold text-gray-400 mb-1">NAME</label>
+                                <input type="text" required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full bg-[#121214] border border-gray-700 rounded px-3 py-2 text-white text-sm" placeholder="e.g. AcmeCorp API" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-gray-400 mb-1">PROVIDER (Optional)</label>
+                                <input type="text" value={formData.provider} onChange={e => setFormData({...formData, provider: e.target.value})} className="w-full bg-[#121214] border border-gray-700 rounded px-3 py-2 text-white text-sm" placeholder="e.g. acme" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-gray-400 mb-1">AUTH TYPE</label>
+                                <select value={formData.auth_type} onChange={e => setFormData({...formData, auth_type: e.target.value})} className="w-full bg-[#121214] border border-gray-700 rounded px-3 py-2 text-white text-sm">
+                                    <option value="bearer">Bearer Token (Authorization: Bearer X)</option>
+                                    <option value="header">Custom Header (e.g. X-API-Key: X)</option>
+                                    <option value="query">Query Parameter (e.g. ?api_key=X)</option>
+                                </select>
+                            </div>
+                            {formData.auth_type !== 'bearer' && (
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-400 mb-1">HEADER / QUERY NAME</label>
+                                    <input type="text" required value={formData.auth_header_name} onChange={e => setFormData({...formData, auth_header_name: e.target.value})} className="w-full bg-[#121214] border border-gray-700 rounded px-3 py-2 text-white text-sm" placeholder="e.g. X-API-Key or Authorization" />
+                                </div>
+                            )}
+                            <div>
+                                <label className="block text-xs font-bold text-gray-400 mb-1">SECRET KEY</label>
+                                <input type="password" required value={formData.secret} onChange={e => setFormData({...formData, secret: e.target.value})} className="w-full bg-[#121214] border border-gray-700 rounded px-3 py-2 text-white text-sm" placeholder="Paste secret here..." />
+                            </div>
+                            <div className="flex justify-end gap-3 mt-6">
+                                <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-bold text-gray-400 hover:text-white">CANCEL</button>
+                                <button type="submit" className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold rounded">SECURE & SAVE</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
