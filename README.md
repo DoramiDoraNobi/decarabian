@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
   <img src="public/logo.png" alt="Decarabian Logo" width="120" height="120" />
   <h1>Decarabian</h1>
   <p><strong>A Transparent Proxy and Secret Vault for AI Agents</strong></p>
@@ -7,14 +7,18 @@
 
 ---
 
-## ?? Support the Project
+![Decarabian Web Dashboard UI](public/screenshot.png)
+
+---
+
+## ☕ Support the Project
 Decarabian is open-source. If this gateway saves your API keys and your time, consider supporting the creator!
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/doramidoranobi)
 
 ---
 
-## ⚓ What is Decarabian?
+## âš“ What is Decarabian?
 
 Current Autonomous AI Agents (like AutoGPT, custom LLMs, or Antigravity) require raw API keys (e.g., Stripe, AWS, GitHub) to interact with the world. This creates a massive attack vector. If an AI hallucinates or is compromised via Prompt Injection, it could leak your keys, delete your database, or authorize fraudulent refunds.
 
@@ -22,28 +26,28 @@ Current Autonomous AI Agents (like AutoGPT, custom LLMs, or Antigravity) require
 
 Instead of giving the AI your real API keys, you store them securely inside Decarabian's encrypted vault. You then issue the AI a granular, permission-scoped "Agent Token". When the AI needs to perform an action (e.g., `stripe.charge`), it sends the request to Decarabian. Decarabian validates the permissions, secretly injects the real API key, forwards the request, logs the transaction, and returns the result to the AI.
 
-## 📖 How It Works (The Core Concepts)
+## ðŸ“– How It Works (The Core Concepts)
 
 To use Decarabian effectively, you need to understand its 3 main pillars:
 
-### 1. 🔐 Credentials (The Vault)
+### 1. ðŸ” Credentials (The Vault)
 This is where you store your real, sensitive API Keys (e.g., your GitHub PAT, Stripe Secret Key, AWS Credentials). Decarabian encrypts these at rest (AES-256).
 - **Rule:** The AI agent *never* sees these credentials.
 
-### 2. 🛠️ Tools (The API Routes)
+### 2. ðŸ› ï¸ Tools (The API Routes)
 A "Tool" is simply a mapping to an external API endpoint.
 - **Example:** You create a tool named `github.issue.create`.
 - **Target URL:** `https://api.github.com/repos/{owner}/{repo}/issues`
 - **Method & Auth:** `POST`, linked to your *GitHub PAT* credential.
 - **Dynamic Routing:** Decarabian parses `{variables}` in the URL and intelligently injects parameters sent by the AI, making tools highly reusable across different projects.
 
-### 3. 🤖 Agents (The AI Identities)
+### 3. ðŸ¤– Agents (The AI Identities)
 This is the "ID Card" you give to your AI scripts.
 - **Creation:** You create an Agent in the dashboard (e.g., "Customer Support Bot") and Decarabian gives you a local token (`ag_...`).
 - **Permissions:** You assign specific *Tools* to this agent. (e.g., The Support Bot is allowed to use `github.issue.create`, but is blocked from `github.repo.delete`).
 - **Multi-App Routing:** 1 Agent can be given access to multiple tools across different apps (Stripe + GitHub). The AI only needs to hold its single `ag_...` token, and Decarabian automatically fetches and injects the correct underlying credentials for each tool it calls.
 
-## 🛡️ Is it Safe?
+## ðŸ›¡ï¸ Is it Safe?
 
 **Yes. Architected for Paranoia.**
 
@@ -52,7 +56,7 @@ This is the "ID Card" you give to your AI scripts.
 - **Audit Logging:** Every single request the AI makes is recorded as an immutable Audit Log. You can see the exact parameters the AI sent and what the target API replied.
 - **Kill Switches:** If an agent starts behaving erratically, you can revoke its token instantly from the Decarabian console, cutting off its access without needing to cycle your actual Stripe/AWS keys.
 
-## 🏢 Can we Self-Host?
+## ðŸ¢ Can we Self-Host?
 
 **Absolutely.** In fact, for security infrastructure, **we highly recommend self-hosting.**
 
@@ -68,7 +72,7 @@ gateway = Decarabian(
 )
 ```
 
-## 🚀 Quick Start (SDKs)
+## ðŸš€ Quick Start (SDKs)
 
 Decarabian comes with official SDKs that handle the heavy lifting for your autonomous agents.
 
@@ -116,12 +120,12 @@ const result = await gateway.execute(
 console.log(result);
 ```
 
-## 🛠️ Built With
+## ðŸ› ï¸ Built With
 - **Backend:** Laravel 11 (PHP)
 - **Frontend:** React 18, Vite, Tailwind CSS, Lucide Icons
 - **SDKs:** Python (requests), TypeScript (fetch)
 - **Database:** MySQL / SQLite
 
-## 📄 License
+## ðŸ“„ License
 MIT License. Built for the autonomous future.
 
