@@ -1,5 +1,5 @@
 {
-  "name": "@decarabian/sdk",
+  "name": "decarabian",
   "version": "0.1.0",
   "description": "Official JavaScript/TypeScript SDK for Decarabian AI Gateway",
   "main": "dist/index.js",
@@ -10,6 +10,7 @@
   "author": "Decarabian",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^26.2.0",
     "typescript": "^5.0.0"
   }
 }

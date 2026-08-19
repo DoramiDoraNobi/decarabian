@@ -43,6 +43,8 @@ class InstallGithubPack extends Command
             return;
         }
 
+        $this->info("Found user: {$user->email} (ID: {$user->id}). Installing pack for this user...");
+
         // 1. Create a placeholder credential if it doesn't exist
         $credential = Credential::where('name', 'GitHub Universal PAT')->where('user_id', $user->id)->first();
         
