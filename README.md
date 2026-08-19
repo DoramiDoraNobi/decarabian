@@ -22,6 +22,27 @@ Current Autonomous AI Agents (like AutoGPT, custom LLMs, or Antigravity) require
 
 Instead of giving the AI your real API keys, you store them securely inside Decarabian's encrypted vault. You then issue the AI a granular, permission-scoped "Agent Token". When the AI needs to perform an action (e.g., `stripe.charge`), it sends the request to Decarabian. Decarabian validates the permissions, secretly injects the real API key, forwards the request, logs the transaction, and returns the result to the AI.
 
+## 📖 How It Works (The Core Concepts)
+
+To use Decarabian effectively, you need to understand its 3 main pillars:
+
+### 1. 🔐 Credentials (The Vault)
+This is where you store your real, sensitive API Keys (e.g., your GitHub PAT, Stripe Secret Key, AWS Credentials). Decarabian encrypts these at rest (AES-256).
+- **Rule:** The AI agent *never* sees these credentials.
+
+### 2. 🛠️ Tools (The API Routes)
+A "Tool" is simply a mapping to an external API endpoint.
+- **Example:** You create a tool named `github.issue.create`.
+- **Target URL:** `https://api.github.com/repos/{owner}/{repo}/issues`
+- **Method & Auth:** `POST`, linked to your *GitHub PAT* credential.
+- **Dynamic Routing:** Decarabian parses `{variables}` in the URL and intelligently injects parameters sent by the AI, making tools highly reusable across different projects.
+
+### 3. 🤖 Agents (The AI Identities)
+This is the "ID Card" you give to your AI scripts.
+- **Creation:** You create an Agent in the dashboard (e.g., "Customer Support Bot") and Decarabian gives you a local token (`ag_...`).
+- **Permissions:** You assign specific *Tools* to this agent. (e.g., The Support Bot is allowed to use `github.issue.create`, but is blocked from `github.repo.delete`).
+- **Multi-App Routing:** 1 Agent can be given access to multiple tools across different apps (Stripe + GitHub). The AI only needs to hold its single `ag_...` token, and Decarabian automatically fetches and injects the correct underlying credentials for each tool it calls.
+
 ## 🛡️ Is it Safe?
 
 **Yes. Architected for Paranoia.**
